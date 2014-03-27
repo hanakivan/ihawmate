@@ -8,17 +8,11 @@ if ( ! isset( $content_width ) ) $content_width = 960;
 
 
 #define textdomain for translations
-if(!defined('_TEXTDOMAIN_'))
-	define('_TEXTDOMAIN_', 'template');
+if(!defined('__TEXTDOMAIN__'))
+	define('__TEXTDOMAIN__', 'ihawmate');
 
-#define absolute path to template
-if(!defined('_PATH_'))
-	define('_PATH_', get_stylesheet_directory().'/');
-
-define('_ABSPATH_', get_template_directory().'/');
-
-if(!defined('_LOAD_GALLERY_'))
-	define('_LOAD_GALLERY_', false);
+if(!defined('__LOAD_GALLERY_'))
+	define('__LOAD_GALLERY_', false);
 
 function template_setup()
 {
@@ -26,13 +20,17 @@ function template_setup()
 	add_editor_style();
 	
 	#Load languages to use
-	load_theme_textdomain(_TEXTDOMAIN_, _PATH_.'languages');	
+	load_theme_textdomain(__TEXTDOMAIN__, get_stylesheet_directory() . DIRECTORY_SEPARATOR .'languages');
 	
 	#Remove unused links
 	remove_theme_support('automatic-feed-links');
 	
 	#Register navigation
-	register_nav_menu( 'primary', __( 'Hlavní navigace', _TEXTDOMAIN_ ) );
+	register_nav_menu( 'primary', __( 'Hlavní navigace', __TEXTDOMAIN__ ) );
+
+    add_theme_support( 'html5', array(
+        'search-form', 'comment-form', 'comment-list',
+    ) );
 }
 add_action ('after_setup_theme', 'template_setup', 11);
 remove_action('wp_head', 'wlwmanifest_link');
@@ -54,86 +52,99 @@ function _minify()
 }
 
 /**
- * Function disables update alert for specified plugins
- * To make this work, create another function "_plugins_to_deactivate_updates" returning array of plugins to be processed
- * Array value construction array("plugin_folder/plugin.ext")
+ * @param $value
+ * @return mixed
  */
-function _filter_plugin_updates( $value ) {
-	foreach(_plugins_to_deactivate_updates() as $plugin)	
-		if(isset($value->response[$plugin]))
-			unset( $value->response[$plugin] );
-		
+function ihawmate_filter_plugin_updates( $value ) {
+    $plugins = apply_filters('ihawmate_plugins_to_filter_updates', array());
+
+    if(sizeof($plugins) > 0)
+    {
+        foreach($plugins as $plugin)
+            if(isset($value->response[$plugin]))
+                unset( $value->response[$plugin] );
+    }
+
     return $value;
 }
-if(function_exists('_plugins_to_deactivate_updates'))
-	add_filter( 'site_transient_update_plugins', '_filter_plugin_updates' );	
+add_filter( 'site_transient_update_plugins', 'ihawmate_filter_plugin_updates' );
 	
 /**
  * Function removes pages from admin menu
  * To make this work, create another function "_admin_pages_to_remove" returning array of pages to be removed
  * Array value construction array("slug.ext")
  */
-function _remove_admin_pages() {	
-	foreach(_admin_pages_to_remove() as $remove)
-		remove_menu_page($remove);	
-}	
-if(function_exists('_admin_pages_to_remove'))
-	add_action( 'admin_menu', '_remove_admin_pages' );
-	
+function ihawmate_remove_admin_pages() {
+    $pages = apply_filters('ihawmate_admin_pages_to_remove', array());
 
-/**
- * Function removes subpages from admin menu
- * To make this work, create another function "_admin_subpages_to_remove" returning array of pages to be removed
- * Array value construction array("menu" => "submenu")
- */
-function _remove_subadmin_pages() {	
-	foreach(_admin_subpages_to_remove() as $key => $value)
-		remove_submenu_page($key, $value);	
-}	
-if(function_exists('_admin_subpages_to_remove'))
-	add_action( 'admin_menu', '_remove_subadmin_pages' );
-	
-
-/**
- * Function removes items from admin toolbar
- * To make this work, create another function "_admin_toolbar_items_remove" returning array of items to be removed
- * Array value construction array("array_key")
- */
-function _remove_admin_bar_items(){
-	  global $wp_admin_bar;
-	  foreach(_admin_toolbar_items_remove() as $item)
-	  	$wp_admin_bar->remove_menu($item);
+    if(sizeof($pages) > 0)
+    {
+        foreach($pages as $page)
+            remove_menu_page($page);
+    }
 }
-if(function_exists('_admin_toolbar_items_remove'))
-	add_action( 'wp_before_admin_bar_render', '_remove_admin_bar_items' );
-
-/**
- * Function add links like favicon, additional meta to header
- * Currently added:
- ** meta tag for devices
- ** favicon
- */
-function _header_links() {
-	echo "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"".get_stylesheet_directory_uri()."/img/favicon.ico\">\n";	
-}
-add_action('wp_head', '_header_links', 1);
+add_action( 'admin_menu', 'ihawmate_remove_admin_pages' );
 	
 
-#Create site title
-function _site_title() {
+/**
+ *
+ */
+function ihawmate_remove_subpages() {
+    $subpages = apply_filters('ihawmate_admin_subpages_to_remove', array());
+
+    if(sizeof($subpages) > 0)
+    {
+        foreach($subpages as $parentSlug => $subpage)
+            remove_submenu_page($parentSlug, $subpage);
+    }
+}	
+add_action( 'admin_menu', 'ihawmate_remove_subpages' );
+	
+
+/**
+ *
+ */
+function ihawmate_remove_admin_bar_pages(){
+
+    global $wp_admin_bar;
+
+    $pages_to_remove = apply_filters('ihawmate_admin_bar_pages_to_remove', array());
+
+    if(sizeof($pages_to_remove) > 0)
+    {
+        foreach($pages_to_remove as $page)
+            $wp_admin_bar->remove_menu($page);
+    }
+}
+add_action( 'wp_before_admin_bar_render', 'ihawmate_remove_admin_bar_pages' );
+
+
+/**
+ *
+ */
+function ihawmate_html_head() {
+
+}
+add_action('wp_head', 'ihawmate_html_head', 1);
+	
+
+/**
+ *
+ */
+function ihawmate_site_title() {
 	global $page, $paged;
 	if ( $paged >= 2 || $page >= 2 )
-		echo sprintf( __( 'Stránka %s', _TEXTDOMAIN_ ), max( $paged, $page ) ).' | ';
+		echo sprintf( __( 'Stránka %s', __TEXTDOMAIN__ ), max( $paged, $page ) ).' | ';
 	echo esc_attr( wp_title( '|', true, 'right' ) );
 	echo esc_attr(get_bloginfo( 'name' ));
 }
 
 
 #Load default css
-function _add_default_css() {
+function ihawmate_default_css() {
 	wp_enqueue_style('default', get_stylesheet_uri(), FALSE, NULL, 'all');	
 }
-add_action('wp_print_styles', '_add_default_css');
+add_action('wp_print_styles', 'ihawmate_default_css');
 
 /**
  * Function loads the prettyPhoto gallery automatically with dependance on post content
@@ -142,7 +153,7 @@ add_action('wp_print_styles', '_add_default_css');
  */
 function post_gallery_init()
 {
-	if(_LOAD_GALLERY_)
+	if(__LOAD_GALLERY_)
 	{
 		global $post;
 		
@@ -175,32 +186,13 @@ function prettyPhoto_css_init(){
 	wp_enqueue_style('prettyphoto', get_template_directory_uri().'/css/prettyphoto.css', FALSE, NULL, 'screen');	
 }
 
-/**
- * Function inserts inline JS to footer after executing hook wp_enqueue_scripts
- * In this case
- */
-function _add_inline_js()
-{
-	global $script;
-	$script = '
-	<script>
-		jQuery(document).ready(function(){
-			$("a[href$=\'.jpg\'], a[href$=\'.png\']").prop("rel","prettyPhoto[pp_gal]");
-			$("a[rel^=\'prettyPhoto\']").prettyPhoto({social_tools:\'\'});
-		';
-	do_action('_footer_inline_js');	
-	$script .= "\n});</script>\n";	
-	
-	echo $script;
-}
 
 #Functions checks, if is loaded the variable $post and if it is a object
 function is_loaded_post_object()
 {
 	global $post;
-	if(is_object($post))
-		return true;
-	return false;
+
+    return is_object($post);
 }
 
 /**

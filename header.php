@@ -13,7 +13,7 @@
 <!--<![endif]-->
 	<head>
     	<meta charset="<?php echo esc_attr( get_bloginfo('charset') ); ?>">
-        <title><?php _site_title();?></title>
+        <title><?php ihawmate_site_title();?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.0">      
         <link rel="profile" href="http://gmpg.org/xfn/11" />
         <?php wp_head();?>
