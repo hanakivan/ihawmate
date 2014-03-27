@@ -1,0 +1,14 @@
+# Copyright (C) 2013 SOPKO advertising
+
+"Project-Id-Version: Template version 1.0\n"
+"POT-Creation-Date: 2013-01-01 00:19:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-04-05 16:36+0100\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: front-page.php:24
+msgid "Zobrazit celý článek"
+msgstr "Read more"

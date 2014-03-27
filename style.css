@@ -1,0 +1,224 @@
+/*
+Theme Name: WP šablóna
+Theme URI: 
+Description: The 2013 default theme for WordPress.
+Author: Ivan Hanák, 
+Version: 1.0
+
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/* =Elements reset
+-------------------------------------------------------------- */
+* {padding:0; margin:0; background:none; border:0; outline:0; font-family:sans-serif, Arial, Helvetica, Tahoma, Verdana; line-height:1;}
+html {overflow-y:scroll; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;-webkit-font-smoothing: antialiased; font-size: 100%;}
+body {font-size:12px;}
+
+/* =Default elements style
+-------------------------------------------------------------- */
+a {text-decoration:none; font-size:inherit;}
+a:hover {text-decoration:underline;}
+img {-ms-interpolation-mode: bicubic;}
+ol,ul {list-style:none outside;}
+h1 {font-size:27px; font-size:1.5rem;}
+h2 {font-size:24px; font-size:1.4rem;}
+h3 {font-size:21px; font-size:1.3rem;}
+h4 {font-size:18px; font-size:1.2rem;}
+h5 {font-size:15px; font-size:1.1rem;}
+h6 {font-size:12px; font-size:1rem;}
+table {width:100%;}
+table td {vertical-align:top;}
+small,.small {font-size:85%; font-size:0.85rem;}
+blockquote {padding-left:40px; margin-bottom:2em; font-style:italic;}
+pre {padding:0.5em 2em 1em; overflow:scroll;}
+code, 
+pre {font-family:"Courier New", Courier, monospace;}
+sub, sup {font-size: 75%; line-height:0; }
+strong,b,.bold {font-weight:bold}
+em,italic {font-weight:italic;}
+q { quotes:none; }
+q:before {content:"\201E";}
+q:after {content:"\201C";}
+
+/* =Content classes
+-------------------------------------------------------------- */
+.center {text-align:center;}
+.right{text-align:right;}
+.justify{text-align:justify;}
+.alignleft {float:left;}
+.alignright {float:right}
+.clear {clear:both;}
+.clearfix:after,
+.rte:after {clear:both; display:block; content:"";}  
+
+/* =Layout
+-------------------------------------------------------------- */
+.full_width {width:100%; overflow:hidden;}
+.default_width {max-width:960px; overflow:hidden; margin:0 auto;}
+
+/* =Header parts
+-------------------------------------------------------------- */
+#masterhead {}
+#site-header {}
+#site-header .nav-menu {}
+#logo {}
+
+/* =Content area
+-------------------------------------------------------------- */
+#masterwrap {}
+#site-content {}
+
+/* =Footer area
+-------------------------------------------------------------- */
+#masterfooter {}
+#site-footer {}
+
+/* =Entry
+-------------------------------------------------------------- */
+.entry {}
+.entry-header {}
+.entry-title {}
+.entry-summary {}
+.entry-content {}
+
+/* =IEs
+-------------------------------------------------------------- */
+.ie {}
+.ie6 {}
+.ie7 {}
+.ie8 {}
+
+/* =RTE Fields
+-------------------------------------------------------------- */
+.rte * {line-height:18px; line-height:1.25rem;}
+.rte p {margin:4px 0 12px; margin:0.3rem 0 1rem;}
+.rte h1,
+.rte h2,
+.rte h3,
+.rte h4,
+.rte h5,
+.rte h6 {margin:18px 0 6px; margin:1.2rem 0 0.5rem;}
+.rte h1 strong,
+.rte h2 strong,
+.rte h3 strong,
+.rte h4 strong,
+.rte h5 strong,
+.rte h6 strong {font-weight:900;}
+.rte dl dt {font-weight:bold;}
+.rte dl dd {padding-left:30px; font-style:italic; margin-bottom:0.3em;}
+.rte ol { list-style-type:decimal;}
+.rte ol ol { list-style-type:upper-roman}
+.rte ol ol ol { list-style-type:lower-roman}
+.rte li {margin-bottom:6px; margin-bottom:0.4rem;}
+.rte ul { list-style-type:disc;}
+.rte ul ul { list-style-type:circle}
+.rte ul ul ul { list-style-type:square;}
+.rte ol,
+.rte ul {list-style-position:outside; padding-left:25px; padding-left:1.3rem; overflow:hidden; margin:0.5rem 0 0.7rem 0.9rem; margin:7px 0 11px 14px;}
+
+
+/* =WordPress Core
+-------------------------------------------------------------- */
+.rte .alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.rte .aligncenter,
+.rte div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.rte .alignright {
+    float:right;
+    margin: 5px 0 20px 20px;
+}
+
+.rte .alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+.rte .aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.wp-caption {
+    background: #fafafa;
+    border: 1px solid #fff;
+	box-shadow:0 1px 1px #bbb;
+    max-width: 96%; /* Image does not overflow the content area */
+    padding: 5px 3px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: 5px 20px 20px 5px;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 5px;
+}
+
+.wp-caption.alignright {
+    margin: 5px 5px 20px 20px;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption p.wp-caption-text {
+    font-size: 11px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+}
+
+blockquote.left {
+	float: left;
+	margin-left: 0;
+	margin-right: 20px;
+	text-align: right;
+	width: 33%;
+}
+
+blockquote.right {
+	float: right;
+	margin-left: 20px;
+	margin-right: 0;
+	text-align: left;
+	width: 33%;
+}
+@media screen and (max-width:970px)
+{
+	.default_width {margin:0 1em; max-width:none;}	
+	.rte img {max-width:100%; height:auto;}
+}
